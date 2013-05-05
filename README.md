@@ -2,6 +2,7 @@ sdrsharp_hackrf
 ===============
 
 SDR# HackRF plugin beta
+
 In this version configuration of HackRF is really limited only change the sample rate and do not change other parameters.
 
 SDR# is developped by Youssef Touil and available on 
@@ -9,7 +10,9 @@ http://sdrsharp.com
 
 SDR# Source code:
 http://sdrsharp.com/index.php/source-code
+
 https://subversion.assembla.com/svn/sdrsharp
+
 
 Required libs:
 
@@ -26,6 +29,7 @@ To be built in directory hackrf/host/libhackrf/src
 Install it in for example sdrsharp_hackrf\bin\sdrsharp directory
 
 How to build and use SDR# + HackRF plugin:
+
 1) Checkout sdrsharp from https://subversion.assembla.com/svn/sdrsharp
 
 2) Copy sdrsharp_hackrf\src\HackRF directory and files to sdrsharp_hackrf\bin\sdrsharp\
