@@ -71,7 +71,6 @@ namespace SDRSharp.HackRF
         {
             if (_HackRFDevice != null)
             {
-                _HackRFDevice.Stop();
                 _HackRFDevice.SamplesAvailable -= HackRFDevice_SamplesAvailable;
                 _HackRFDevice.Dispose();
                 _HackRFDevice = null;

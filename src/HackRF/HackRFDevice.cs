@@ -99,7 +99,7 @@ namespace SDRSharp.HackRF
             var r = NativeMethods.hackrf_close(_dev);
             if (r != 0)
             {
-                throw new ApplicationException("Cannot close HackRF device.");
+                //throw new ApplicationException("Cannot close HackRF device.");
             }
             NativeMethods.hackrf_exit();
             if (_gcHandle.IsAllocated)
@@ -115,38 +115,19 @@ namespace SDRSharp.HackRF
         public void Start()
         {
             uint baseband_filter_bw_hz;
+            var r = 0;
 
             if (_rxIsRunning)
             {
-                throw new ApplicationException("Already running");
-            }
-
-            /* Ugly hack close and reopen also the device */
-            var r = NativeMethods.hackrf_close(_dev);
-            if (r != 0)
-            {
-                throw new ApplicationException("Cannot close HackRF device.");
-            }
-            NativeMethods.hackrf_exit();
-
-            r = NativeMethods.hackrf_init();
-            if (r != 0)
-            {
-                throw new ApplicationException("Cannot init HackRF device. Is the device locked somewhere?");
-            }
-
-            r = NativeMethods.hackrf_open(out _dev);
-            if (r != 0)
-            {
-                throw new ApplicationException("Cannot open HackRF device. Is the device locked somewhere?");
+                throw new ApplicationException("Start() Already running");
             }
 
             r = NativeMethods.hackrf_sample_rate_set(_dev, _sampleRate);
             if (r != 0)
             {
                 throw new ApplicationException("hackrf_sample_rate_set error");
-            }            
-            
+            }
+
             r = NativeMethods.hackrf_set_amp_enable(_dev, 1); /* 0 = OFF, 1= ON */
             if (r != 0)
             {
@@ -164,7 +145,13 @@ namespace SDRSharp.HackRF
             r = NativeMethods.hackrf_start_rx(_dev, _HackRFCallback, (IntPtr)_gcHandle);
             if (r != 0)
             {
-                throw new ApplicationException("hackrf_baseband_filter_bandwidth_set error");
+                throw new ApplicationException("hackrf_start_rx error");
+            }
+
+            r = NativeMethods.hackrf_is_streaming(_dev);
+            if (r != 1)
+            {
+                throw new ApplicationException("hackrf_is_streaming() Error");
             }
 
             _rxIsRunning = true;
@@ -180,7 +167,7 @@ namespace SDRSharp.HackRF
             var r = NativeMethods.hackrf_stop_rx(_dev);
             if (r != 0)
             {
-                throw new ApplicationException("hackrf_stop_rx error");
+                //throw new ApplicationException("hackrf_stop_rx error");
             }
 
             _rxIsRunning = false;
@@ -348,7 +335,10 @@ namespace SDRSharp.HackRF
 
         public bool IsStreaming
         {
-            get { return _rxIsRunning; }
+            get
+            {
+                return _rxIsRunning;
+            }
         }
 
         #region Streaming methods
