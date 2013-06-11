@@ -122,7 +122,7 @@ namespace SDRSharp.HackRF
                 throw new ApplicationException("Start() Already running");
             }
 
-            r = NativeMethods.hackrf_sample_rate_set(_dev, _sampleRate);
+            r = NativeMethods.hackrf_set_sample_rate(_dev, _sampleRate);
             if (r != 0)
             {
                 throw new ApplicationException("hackrf_sample_rate_set error");
@@ -136,7 +136,7 @@ namespace SDRSharp.HackRF
 
             baseband_filter_bw_hz = NativeMethods.hackrf_compute_baseband_filter_bw_round_down_lt(_sampleRate);
             //baseband_filter_bw_hz = 5000000; /* Force 5MHz */
-            r = NativeMethods.hackrf_baseband_filter_bandwidth_set(_dev, baseband_filter_bw_hz);
+            r = NativeMethods.hackrf_set_baseband_filter_bandwidth(_dev, baseband_filter_bw_hz);
             if (r != 0)
             {
                 throw new ApplicationException("hackrf_baseband_filter_bandwidth_set error");
@@ -194,7 +194,7 @@ namespace SDRSharp.HackRF
                 _sampleRate = value;
                 if (_dev != IntPtr.Zero)
                 {
-                    NativeMethods.hackrf_sample_rate_set(_dev, _sampleRate);
+                    NativeMethods.hackrf_set_sample_rate(_dev, _sampleRate);
                 }
             }
         }

@@ -60,17 +60,17 @@ namespace SDRSharp.HackRF
             }
         }
 
-        [DllImport(LibHackRF, EntryPoint = "hackrf_sample_rate_set", CallingConvention = CallingConvention.StdCall)]
-        public static extern int hackrf_sample_rate_set(IntPtr dev, uint rate);
+        [DllImport(LibHackRF, EntryPoint = "hackrf_set_sample_rate", CallingConvention = CallingConvention.StdCall)]
+        public static extern int hackrf_set_sample_rate(IntPtr dev, double rate);
 
         [DllImport(LibHackRF, EntryPoint = "hackrf_set_freq", CallingConvention = CallingConvention.StdCall)]
         public static extern int hackrf_set_freq(IntPtr dev, long freq);
 
         [DllImport(LibHackRF, EntryPoint = "hackrf_set_amp_enable", CallingConvention = CallingConvention.StdCall)]
         public static extern int hackrf_set_amp_enable(IntPtr dev, byte value);
-        
-        [DllImport(LibHackRF, EntryPoint = "hackrf_baseband_filter_bandwidth_set", CallingConvention = CallingConvention.StdCall)]
-        public static extern int hackrf_baseband_filter_bandwidth_set(IntPtr dev, uint bandwidth_hz);
+
+        [DllImport(LibHackRF, EntryPoint = "hackrf_set_baseband_filter_bandwidth", CallingConvention = CallingConvention.StdCall)]
+        public static extern int hackrf_set_baseband_filter_bandwidth(IntPtr dev, uint bandwidth_hz);
 
         [DllImport(LibHackRF, EntryPoint = "hackrf_compute_baseband_filter_bw_round_down_lt", CallingConvention = CallingConvention.StdCall)]
         public static extern uint hackrf_compute_baseband_filter_bw_round_down_lt(uint bandwidth_hz);
