@@ -3,7 +3,7 @@ sdrsharp_hackrf
 
 SDR# HackRF plugin beta
 
-In this version configuration of HackRF is really limited only change the sample rate and do not change other parameters.
+In this version configuration of HackRF is really limited only change the sample rate. Gain is also supported.
 
 SDR# is developped by Youssef Touil and available on 
 http://sdrsharp.com

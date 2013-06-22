@@ -23,10 +23,11 @@ namespace SDRSharp.HackRF
         private readonly uint _index;
         private IntPtr _dev;
         private readonly string _name;
-        private readonly int[] _supportedGains;
-        private bool _useTunerAGC = true;
+        private readonly int[] _supportedVGAGains;
+        private bool _useTunerAMP = true;
         private bool _useHackRFAGC;
-        private int _tunerGain;
+        private int _tunerLNAGain;
+        private int _tunerVGAGain;
         private long _centerFrequency = DefaultFrequency;
         private uint _sampleRate = DefaultSamplerate;
         private int _frequencyCorrection;
@@ -73,11 +74,11 @@ namespace SDRSharp.HackRF
                 count = 0;
             }
             */
-            var count = 0;
+            var count = 62;
 
             //_supportsOffsetTuning = NativeMethods.rtlsdr_set_offset_tuning(_dev, 0) != -2;
             _supportsOffsetTuning = false;
-            _supportedGains = new int[count];
+            _supportedVGAGains = new int[count];
             /*
             if (count >= 0)
             {
@@ -231,19 +232,24 @@ namespace SDRSharp.HackRF
             }
         }
 
-        public bool UseTunerAGC
+        public bool UseTunerAMP
         {
-            get { return _useTunerAGC; }
+            get { return _useTunerAMP; }
             set
             {
-                _useTunerAGC = value;
+                _useTunerAMP = value;
                 /* TODO code HackRF Tuner AGC */
                 /*
                 if (_dev != IntPtr.Zero)
                 {
-                    NativeMethods.rtlsdr_set_tuner_gain_mode(_dev, _useTunerAGC ? 0 : 1);
+                    NativeMethods.rtlsdr_set_tuner_gain_mode(_dev, _useTunerAMP ? 0 : 1);
                 }
                 */
+                if (_dev != IntPtr.Zero)
+                {
+                    NativeMethods.hackrf_set_amp_enable(_dev, (uint)(_useTunerAMP ? 1 : 0));
+                }
+
             }
         }
 
@@ -286,15 +292,15 @@ namespace SDRSharp.HackRF
 
         public int[] SupportedGains
         {
-            get { return _supportedGains; }
+            get { return _supportedVGAGains; }
         }
 
-        public int Gain
+        public int LNAGain
         {
-            get { return _tunerGain; }
+            get { return _tunerLNAGain; }
             set
             {
-                _tunerGain = value;
+                _tunerLNAGain = value;
                 /* TODO code HackRF Tuner Gain TBD */
                 /*
                 if (_dev != IntPtr.Zero)
@@ -302,6 +308,34 @@ namespace SDRSharp.HackRF
                     NativeMethods.rtlsdr_set_tuner_gain(_dev, _tunerGain);
                 }
                 */
+
+                if (_dev != IntPtr.Zero)
+                {
+                    NativeMethods.hackrf_set_lna_gain(_dev, Convert.ToUInt32(_tunerLNAGain));
+                }
+
+            }
+        }
+
+        public int VGAGain
+        {
+            get { return _tunerVGAGain; }
+            set
+            {
+                _tunerVGAGain = value;
+                /* TODO code HackRF Tuner Gain TBD */
+                /*
+                if (_dev != IntPtr.Zero)
+                {
+                    NativeMethods.rtlsdr_set_tuner_gain(_dev, _tunerGain);
+                }
+                */
+
+                if (_dev != IntPtr.Zero)
+                {
+                    NativeMethods.hackrf_set_vga_gain(_dev, Convert.ToUInt32(_tunerVGAGain));
+                }
+
             }
         }
 

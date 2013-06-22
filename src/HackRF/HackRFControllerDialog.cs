@@ -19,17 +19,21 @@ namespace SDRSharp.HackRF
             deviceComboBox.Items.Clear();
             deviceComboBox.Items.AddRange(devices);
 
-            frequencyCorrectionNumericUpDown.Value = Utils.GetIntSetting("HackRFFrequencyCorrection", 0);
             samplerateComboBox.SelectedIndex = Utils.GetIntSetting("HackRFSampleRate", 3);
             samplingModeComboBox.SelectedIndex = Utils.GetIntSetting("HackRFSamplingMode", 0);
             offsetTuningCheckBox.Checked = Utils.GetBooleanSetting("HackRFOffsetTuning");
             rtlAgcCheckBox.Checked = Utils.GetBooleanSetting("HackRFChipAgc");
-            tunerAgcCheckBox.Checked = Utils.GetBooleanSetting("HackRFTunerAgc");
-            tunerGainTrackBar.Value = Utils.GetIntSetting("HackRFTunerGain", 0);
+            tunerAmpCheckBox.Checked = Utils.GetBooleanSetting("HackRFTunerAmp");
+            tunerLNAGainTrackBar.Value = Utils.GetIntSetting("HackRFLNATunerGain", 0);
+            tunerVGAGainTrackBar.Value = Utils.GetIntSetting("HackRFVGATunerGain", 0);
+            gainLNALabel.Text = tunerLNAGainTrackBar.Value + " dB";
+            gainVGALabel.Text = tunerVGAGainTrackBar.Value + " dB";
             
-            tunerAgcCheckBox.Enabled = samplingModeComboBox.SelectedIndex == 0;
-            gainLabel.Visible = tunerAgcCheckBox.Enabled && !tunerAgcCheckBox.Checked;
-            tunerGainTrackBar.Enabled = tunerAgcCheckBox.Enabled && !tunerAgcCheckBox.Checked;
+            tunerAmpCheckBox.Enabled = samplingModeComboBox.SelectedIndex == 0;
+            //gainLabel.Visible = tunerAmpCheckBox.Enabled && !tunerAmpCheckBox.Checked;
+            //tunerGainTrackBar.Enabled = tunerAmpCheckBox.Enabled && !tunerAmpCheckBox.Checked;
+            gainLNALabel.Visible = tunerLNAGainTrackBar.Enabled = true;
+            gainVGALabel.Visible = tunerVGAGainTrackBar.Enabled = true;
             offsetTuningCheckBox.Enabled = samplingModeComboBox.SelectedIndex == 0;
 
             _initialized = true;
@@ -103,18 +107,6 @@ namespace SDRSharp.HackRF
             }
         }
 
-        private void tunerGainTrackBar_Scroll(object sender, EventArgs e)
-        {
-            if (!_initialized)
-            {
-                return;
-            }
-            var gain = _owner.Device.SupportedGains[tunerGainTrackBar.Value];
-            _owner.Device.Gain = gain;
-            gainLabel.Text = gain / 10.0 + " dB";
-            Utils.SaveSetting("HackRFTunerGain", tunerGainTrackBar.Value);
-        }
-
         private void samplerateComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!_initialized)
@@ -127,31 +119,6 @@ namespace SDRSharp.HackRF
             Utils.SaveSetting("HackRFSampleRate", samplerateComboBox.SelectedIndex);
         }
 
-        private void tunerAgcCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!_initialized)
-            {
-                return;
-            }
-            tunerGainTrackBar.Enabled = tunerAgcCheckBox.Enabled && !tunerAgcCheckBox.Checked;
-            _owner.Device.UseTunerAGC = tunerAgcCheckBox.Checked;
-            gainLabel.Visible = tunerAgcCheckBox.Enabled && !tunerAgcCheckBox.Checked;
-            if (!tunerAgcCheckBox.Checked)
-            {
-                tunerGainTrackBar_Scroll(null, null);
-            }
-            Utils.SaveSetting("HackRFTunerAgc", tunerAgcCheckBox.Checked);
-        }
-
-        private void frequencyCorrectionNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            if (!_initialized)
-            {
-                return;
-            }
-            _owner.Device.FrequencyCorrection = (int) frequencyCorrectionNumericUpDown.Value;
-            Utils.SaveSetting("HackRFFrequencyCorrection", frequencyCorrectionNumericUpDown.Value.ToString());
-        }
 
         private void rtlAgcCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -170,9 +137,9 @@ namespace SDRSharp.HackRF
                 return;
             }
 
-            tunerAgcCheckBox.Enabled = samplingModeComboBox.SelectedIndex == 0;
-            gainLabel.Visible = tunerAgcCheckBox.Enabled && !tunerAgcCheckBox.Checked;
-            tunerGainTrackBar.Enabled = tunerAgcCheckBox.Enabled && !tunerAgcCheckBox.Checked;
+            tunerAmpCheckBox.Enabled = samplingModeComboBox.SelectedIndex == 0;
+           // gainLabel.Visible = tunerAmpCheckBox.Enabled && !tunerAmpCheckBox.Checked;
+           // tunerGainTrackBar.Enabled = tunerAmpCheckBox.Enabled && !tunerAmpCheckBox.Checked;
             offsetTuningCheckBox.Enabled = samplingModeComboBox.SelectedIndex == 0;
 
             if (samplingModeComboBox.SelectedIndex == 0)
@@ -203,7 +170,11 @@ namespace SDRSharp.HackRF
             /*
             tunerTypeLabel.Text = _owner.Device.TunerType.ToString();
             */
-            tunerGainTrackBar.Maximum = _owner.Device.SupportedGains.Length - 1;
+
+            /* todo: this better */
+            tunerLNAGainTrackBar.Maximum = 5;
+
+            tunerVGAGainTrackBar.Maximum = _owner.Device.SupportedGains.Length - 1;
             offsetTuningCheckBox.Enabled = _owner.Device.SupportsOffsetTuning;
 
             for (var i = 0; i < deviceComboBox.Items.Count; i++)
@@ -222,7 +193,6 @@ namespace SDRSharp.HackRF
             samplerateComboBox_SelectedIndexChanged(null, null);
             samplingModeComboBox_SelectedIndexChanged(null, null);
             offsetTuningCheckBox_CheckedChanged(null, null);
-            frequencyCorrectionNumericUpDown_ValueChanged(null, null);
             rtlAgcCheckBox_CheckedChanged(null, null);
             /*
             tunerAgcCheckBox_CheckedChanged(null, null);
@@ -231,6 +201,67 @@ namespace SDRSharp.HackRF
                 tunerGainTrackBar_Scroll(null, null);
             }
             */
+        }
+
+        private void tunerAmpCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!_initialized)
+            {
+                return;
+            }
+            _owner.Device.UseTunerAMP = tunerAmpCheckBox.Checked;
+            Utils.SaveSetting("HackRFTunerAmp", tunerAmpCheckBox.Checked);
+        }
+
+        private void tunerVGAGainTrackBar_Scroll(object sender, EventArgs e)
+        {
+            if (!_initialized)
+            {
+                return;
+            }
+            //var gain = _owner.Device.SupportedGains[tunerGainTrackBar.Value];
+            var gain = tunerVGAGainTrackBar.Value;
+            _owner.Device.VGAGain = gain;
+            //gainLabel.Text = gain / 10.0 + " dB";
+            gainVGALabel.Text = gain + " dB";
+            Utils.SaveSetting("HackRFVGATunerGain", tunerVGAGainTrackBar.Value);
+        }
+
+        private void tunerGainLNATrackBar_Scroll(object sender, EventArgs e)
+        {
+            if (!_initialized)
+            {
+                return;
+            }
+            //var gain = _owner.Device.SupportedGains[tunerGainTrackBar.Value];
+            /* todo: this better */
+            var gain = 0;
+            //gainLabel.Text = gain / 10.0 + " dB";
+            switch (tunerLNAGainTrackBar.Value)
+            {
+                case 1:
+                    gain = 8;
+                    break;
+                case 2:
+                    gain = 16;
+                    break;
+                case 3:
+                    gain = 24;
+                    break;
+                case 4:
+                    gain = 32;
+                    break;
+                case 5:
+                    gain = 40;
+                    break;
+                default:
+                    gain = 0;
+                    break;
+            }
+            _owner.Device.LNAGain = gain;
+            gainLNALabel.Text = gain + " dB";
+
+            Utils.SaveSetting("HackRFLNATunerGain", tunerLNAGainTrackBar.Value);
         }
     }
 
@@ -244,7 +275,7 @@ namespace SDRSharp.HackRF
             /*
             var count = NativeMethods.rtlsdr_get_device_count();
              */
-            string namestr = "HackRF Device";
+            //string namestr = "HackRF Device";
             var count = 1;
             var result = new DeviceDisplay[count];
 			

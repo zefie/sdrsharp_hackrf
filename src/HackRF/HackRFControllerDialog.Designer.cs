@@ -33,21 +33,22 @@
             this.closeButton = new System.Windows.Forms.Button();
             this.deviceComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tunerGainTrackBar = new System.Windows.Forms.TrackBar();
+            this.tunerLNAGainTrackBar = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.samplerateComboBox = new System.Windows.Forms.ComboBox();
-            this.tunerAgcCheckBox = new System.Windows.Forms.CheckBox();
-            this.gainLabel = new System.Windows.Forms.Label();
-            this.frequencyCorrectionNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
+            this.tunerAmpCheckBox = new System.Windows.Forms.CheckBox();
+            this.gainLNALabel = new System.Windows.Forms.Label();
             this.rtlAgcCheckBox = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.samplingModeComboBox = new System.Windows.Forms.ComboBox();
             this.offsetTuningCheckBox = new System.Windows.Forms.CheckBox();
             this.tunerTypeLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.tunerGainTrackBar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.frequencyCorrectionNumericUpDown)).BeginInit();
+            this.gainVGALabel = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tunerVGAGainTrackBar = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.tunerLNAGainTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tunerVGAGainTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // refreshTimer
@@ -58,7 +59,7 @@
             // closeButton
             // 
             this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.closeButton.Location = new System.Drawing.Point(184, 306);
+            this.closeButton.Location = new System.Drawing.Point(184, 327);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
             this.closeButton.TabIndex = 8;
@@ -85,23 +86,23 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "Device";
             // 
-            // tunerGainTrackBar
+            // tunerLNAGainTrackBar
             // 
-            this.tunerGainTrackBar.Location = new System.Drawing.Point(3, 229);
-            this.tunerGainTrackBar.Maximum = 10000;
-            this.tunerGainTrackBar.Name = "tunerGainTrackBar";
-            this.tunerGainTrackBar.Size = new System.Drawing.Size(267, 42);
-            this.tunerGainTrackBar.TabIndex = 6;
-            this.tunerGainTrackBar.Scroll += new System.EventHandler(this.tunerGainTrackBar_Scroll);
+            this.tunerLNAGainTrackBar.Location = new System.Drawing.Point(3, 229);
+            this.tunerLNAGainTrackBar.Maximum = 10000;
+            this.tunerLNAGainTrackBar.Name = "tunerLNAGainTrackBar";
+            this.tunerLNAGainTrackBar.Size = new System.Drawing.Size(267, 45);
+            this.tunerLNAGainTrackBar.TabIndex = 6;
+            this.tunerLNAGainTrackBar.Scroll += new System.EventHandler(this.tunerGainLNATrackBar_Scroll);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 213);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 13);
+            this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 22;
-            this.label2.Text = "RF Gain";
+            this.label2.Text = "LNA Gain";
             // 
             // label3
             // 
@@ -120,7 +121,6 @@
             "20 MSPS",
             "16 MSPS",
             "12.5 MSPS",
-            "10 MSPS",
             "8 MSPS"});
             this.samplerateComboBox.Location = new System.Drawing.Point(12, 70);
             this.samplerateComboBox.Name = "samplerateComboBox";
@@ -128,54 +128,29 @@
             this.samplerateComboBox.TabIndex = 1;
             this.samplerateComboBox.SelectedIndexChanged += new System.EventHandler(this.samplerateComboBox_SelectedIndexChanged);
             // 
-            // tunerAgcCheckBox
+            // tunerAmpCheckBox
             // 
-            this.tunerAgcCheckBox.AutoSize = true;
-            this.tunerAgcCheckBox.Location = new System.Drawing.Point(12, 193);
-            this.tunerAgcCheckBox.Name = "tunerAgcCheckBox";
-            this.tunerAgcCheckBox.Size = new System.Drawing.Size(79, 17);
-            this.tunerAgcCheckBox.TabIndex = 5;
-            this.tunerAgcCheckBox.Text = "Tuner AGC";
-            this.tunerAgcCheckBox.UseVisualStyleBackColor = true;
-            this.tunerAgcCheckBox.CheckedChanged += new System.EventHandler(this.tunerAgcCheckBox_CheckedChanged);
+            this.tunerAmpCheckBox.AutoSize = true;
+            this.tunerAmpCheckBox.Checked = true;
+            this.tunerAmpCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tunerAmpCheckBox.Enabled = false;
+            this.tunerAmpCheckBox.Location = new System.Drawing.Point(12, 193);
+            this.tunerAmpCheckBox.Name = "tunerAmpCheckBox";
+            this.tunerAmpCheckBox.Size = new System.Drawing.Size(166, 17);
+            this.tunerAmpCheckBox.TabIndex = 5;
+            this.tunerAmpCheckBox.Text = "Enable HackRF Internal AMP";
+            this.tunerAmpCheckBox.UseVisualStyleBackColor = true;
+            this.tunerAmpCheckBox.CheckedChanged += new System.EventHandler(this.tunerAmpCheckBox_CheckedChanged);
             // 
-            // gainLabel
+            // gainLNALabel
             // 
-            this.gainLabel.Location = new System.Drawing.Point(191, 213);
-            this.gainLabel.Name = "gainLabel";
-            this.gainLabel.Size = new System.Drawing.Size(68, 13);
-            this.gainLabel.TabIndex = 26;
-            this.gainLabel.Text = "1000dB";
-            this.gainLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.gainLabel.Visible = false;
-            // 
-            // frequencyCorrectionNumericUpDown
-            // 
-            this.frequencyCorrectionNumericUpDown.Location = new System.Drawing.Point(169, 275);
-            this.frequencyCorrectionNumericUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.frequencyCorrectionNumericUpDown.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            -2147483648});
-            this.frequencyCorrectionNumericUpDown.Name = "frequencyCorrectionNumericUpDown";
-            this.frequencyCorrectionNumericUpDown.Size = new System.Drawing.Size(90, 20);
-            this.frequencyCorrectionNumericUpDown.TabIndex = 7;
-            this.frequencyCorrectionNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.frequencyCorrectionNumericUpDown.ValueChanged += new System.EventHandler(this.frequencyCorrectionNumericUpDown_ValueChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 277);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(136, 13);
-            this.label4.TabIndex = 28;
-            this.label4.Text = "Frequency correction (ppm)";
+            this.gainLNALabel.Location = new System.Drawing.Point(191, 213);
+            this.gainLNALabel.Name = "gainLNALabel";
+            this.gainLNALabel.Size = new System.Drawing.Size(68, 13);
+            this.gainLNALabel.TabIndex = 26;
+            this.gainLNALabel.Text = "1000dB";
+            this.gainLNALabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.gainLNALabel.Visible = false;
             // 
             // rtlAgcCheckBox
             // 
@@ -233,25 +208,54 @@
             this.tunerTypeLabel.Text = "HackRF";
             this.tunerTypeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // gainVGALabel
+            // 
+            this.gainVGALabel.Location = new System.Drawing.Point(191, 264);
+            this.gainVGALabel.Name = "gainVGALabel";
+            this.gainVGALabel.Size = new System.Drawing.Size(68, 13);
+            this.gainVGALabel.TabIndex = 34;
+            this.gainVGALabel.Text = "1000dB";
+            this.gainVGALabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.gainVGALabel.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 264);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(54, 13);
+            this.label6.TabIndex = 33;
+            this.label6.Text = "VGA Gain";
+            // 
+            // tunerVGAGainTrackBar
+            // 
+            this.tunerVGAGainTrackBar.Location = new System.Drawing.Point(3, 280);
+            this.tunerVGAGainTrackBar.Maximum = 10000;
+            this.tunerVGAGainTrackBar.Name = "tunerVGAGainTrackBar";
+            this.tunerVGAGainTrackBar.Size = new System.Drawing.Size(267, 45);
+            this.tunerVGAGainTrackBar.TabIndex = 32;
+            this.tunerVGAGainTrackBar.Scroll += new System.EventHandler(this.tunerVGAGainTrackBar_Scroll);
+            // 
             // HackRFControllerDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
-            this.ClientSize = new System.Drawing.Size(271, 342);
+            this.ClientSize = new System.Drawing.Size(271, 359);
+            this.Controls.Add(this.gainVGALabel);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.tunerVGAGainTrackBar);
             this.Controls.Add(this.offsetTuningCheckBox);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.samplingModeComboBox);
             this.Controls.Add(this.rtlAgcCheckBox);
             this.Controls.Add(this.tunerTypeLabel);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.frequencyCorrectionNumericUpDown);
-            this.Controls.Add(this.gainLabel);
-            this.Controls.Add(this.tunerAgcCheckBox);
+            this.Controls.Add(this.gainLNALabel);
+            this.Controls.Add(this.tunerAmpCheckBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.samplerateComboBox);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.tunerGainTrackBar);
+            this.Controls.Add(this.tunerLNAGainTrackBar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.deviceComboBox);
             this.Controls.Add(this.closeButton);
@@ -264,10 +268,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "HackRF Controller";
             this.TopMost = true;
-            this.VisibleChanged += new System.EventHandler(this.HackRFControllerDialog_VisibleChanged);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HackRFControllerDialog_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.tunerGainTrackBar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.frequencyCorrectionNumericUpDown)).EndInit();
+            this.VisibleChanged += new System.EventHandler(this.HackRFControllerDialog_VisibleChanged);
+            ((System.ComponentModel.ISupportInitialize)(this.tunerLNAGainTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tunerVGAGainTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,19 +283,20 @@
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.ComboBox deviceComboBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TrackBar tunerGainTrackBar;
+        private System.Windows.Forms.TrackBar tunerLNAGainTrackBar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox samplerateComboBox;
-        private System.Windows.Forms.CheckBox tunerAgcCheckBox;
-        private System.Windows.Forms.Label gainLabel;
-        private System.Windows.Forms.NumericUpDown frequencyCorrectionNumericUpDown;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox tunerAmpCheckBox;
+        private System.Windows.Forms.Label gainLNALabel;
         private System.Windows.Forms.CheckBox rtlAgcCheckBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox samplingModeComboBox;
         private System.Windows.Forms.CheckBox offsetTuningCheckBox;
         private System.Windows.Forms.Label tunerTypeLabel;
+        private System.Windows.Forms.Label gainVGALabel;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TrackBar tunerVGAGainTrackBar;
     }
 }
 
