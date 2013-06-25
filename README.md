@@ -3,8 +3,6 @@ sdrsharp_hackrf
 
 SDR# HackRF plugin beta
 
-In this version configuration of HackRF is really limited only change the sample rate. Gain is also supported.
-
 SDR# is developped by Youssef Touil and available on 
 http://sdrsharp.com
 
@@ -41,8 +39,8 @@ How to build and use SDR# + HackRF plugin:
 
 5) Copy sdrsharp\trunk\Release\* (except *.pdb/manifest) to sdrsharp_hackrf\bin\sdrsharp\* (from Install SDRSharp)
 
-6) Edit file sdrsharp_hackrf\bin\sdrsharp\SDRSharp.exe.config and add the following line after line "<frontendPlugins>":
-    <add key="HackRF / USB" value="SDRSharp.HackRF.HackRFIO,SDRSharp.HackRF" />
+6) Edit file sdrsharp_hackrf\bin\sdrsharp\SDRSharp.exe.config and add the following line after line frontendPlugins: ```
+    <add key="HackRF / USB" value="SDRSharp.HackRF.HackRFIO,SDRSharp.HackRF" />```
 
 7) Extract libusbx-1.0.15-win.7z\libusbx-1.0.15\MinGW32\dll\libusb-1.0.dll to sdrsharp_hackrf\bin\sdrsharp\
 
