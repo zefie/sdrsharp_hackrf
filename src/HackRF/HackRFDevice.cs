@@ -15,7 +15,7 @@ namespace SDRSharp.HackRF
     public unsafe sealed class HackRFDevice : IDisposable
     {
         private const uint DefaultFrequency = 105500000;
-        private const int DefaultSamplerate = 10000000; /* 10MHz */
+        private const int DefaultSamplerate = 8000000; /* 8MHz */
 
         private static readonly float* _lutPtr;
         private static readonly UnsafeBuffer _lutBuffer = UnsafeBuffer.Create(256, sizeof(float));
@@ -238,13 +238,6 @@ namespace SDRSharp.HackRF
             set
             {
                 _useTunerAMP = value;
-                /* TODO code HackRF Tuner AGC */
-                /*
-                if (_dev != IntPtr.Zero)
-                {
-                    NativeMethods.rtlsdr_set_tuner_gain_mode(_dev, _useTunerAMP ? 0 : 1);
-                }
-                */
                 if (_dev != IntPtr.Zero)
                 {
                     NativeMethods.hackrf_set_amp_enable(_dev, (uint)(_useTunerAMP ? 1 : 0));
@@ -301,13 +294,6 @@ namespace SDRSharp.HackRF
             set
             {
                 _tunerLNAGain = value;
-                /* TODO code HackRF Tuner Gain TBD */
-                /*
-                if (_dev != IntPtr.Zero)
-                {
-                    NativeMethods.rtlsdr_set_tuner_gain(_dev, _tunerGain);
-                }
-                */
 
                 if (_dev != IntPtr.Zero)
                 {
@@ -323,13 +309,6 @@ namespace SDRSharp.HackRF
             set
             {
                 _tunerVGAGain = value;
-                /* TODO code HackRF Tuner Gain TBD */
-                /*
-                if (_dev != IntPtr.Zero)
-                {
-                    NativeMethods.rtlsdr_set_tuner_gain(_dev, _tunerGain);
-                }
-                */
 
                 if (_dev != IntPtr.Zero)
                 {

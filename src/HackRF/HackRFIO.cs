@@ -8,7 +8,7 @@ namespace SDRSharp.HackRF
     {
         private readonly HackRFControllerDialog _gui;
         private HackRFDevice _HackRFDevice;
-        private uint _frequency = 105500000;
+        private long _frequency = 105500000;
         private Radio.SamplesAvailableDelegate _callback;
 
         public HackRFIO()
@@ -130,7 +130,7 @@ namespace SDRSharp.HackRF
             get { return _frequency; }
             set
             {
-                _frequency = (uint) value;
+                _frequency = value;
                 if (_HackRFDevice != null)
                 {
                     _HackRFDevice.Frequency = _frequency;

@@ -40,8 +40,6 @@
             this.tunerAmpCheckBox = new System.Windows.Forms.CheckBox();
             this.gainLNALabel = new System.Windows.Forms.Label();
             this.rtlAgcCheckBox = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.samplingModeComboBox = new System.Windows.Forms.ComboBox();
             this.offsetTuningCheckBox = new System.Windows.Forms.CheckBox();
             this.tunerTypeLabel = new System.Windows.Forms.Label();
             this.gainVGALabel = new System.Windows.Forms.Label();
@@ -59,7 +57,7 @@
             // closeButton
             // 
             this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.closeButton.Location = new System.Drawing.Point(184, 327);
+            this.closeButton.Location = new System.Drawing.Point(184, 279);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
             this.closeButton.TabIndex = 8;
@@ -88,7 +86,7 @@
             // 
             // tunerLNAGainTrackBar
             // 
-            this.tunerLNAGainTrackBar.Location = new System.Drawing.Point(3, 229);
+            this.tunerLNAGainTrackBar.Location = new System.Drawing.Point(3, 184);
             this.tunerLNAGainTrackBar.Maximum = 10000;
             this.tunerLNAGainTrackBar.Name = "tunerLNAGainTrackBar";
             this.tunerLNAGainTrackBar.Size = new System.Drawing.Size(267, 45);
@@ -98,7 +96,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 213);
+            this.label2.Location = new System.Drawing.Point(12, 168);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 22;
@@ -134,7 +132,7 @@
             this.tunerAmpCheckBox.Checked = true;
             this.tunerAmpCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tunerAmpCheckBox.Enabled = false;
-            this.tunerAmpCheckBox.Location = new System.Drawing.Point(12, 193);
+            this.tunerAmpCheckBox.Location = new System.Drawing.Point(12, 148);
             this.tunerAmpCheckBox.Name = "tunerAmpCheckBox";
             this.tunerAmpCheckBox.Size = new System.Drawing.Size(166, 17);
             this.tunerAmpCheckBox.TabIndex = 5;
@@ -144,7 +142,7 @@
             // 
             // gainLNALabel
             // 
-            this.gainLNALabel.Location = new System.Drawing.Point(191, 213);
+            this.gainLNALabel.Location = new System.Drawing.Point(191, 168);
             this.gainLNALabel.Name = "gainLNALabel";
             this.gainLNALabel.Size = new System.Drawing.Size(68, 13);
             this.gainLNALabel.TabIndex = 26;
@@ -156,42 +154,19 @@
             // 
             this.rtlAgcCheckBox.AutoSize = true;
             this.rtlAgcCheckBox.Enabled = false;
-            this.rtlAgcCheckBox.Location = new System.Drawing.Point(12, 170);
+            this.rtlAgcCheckBox.Location = new System.Drawing.Point(12, 125);
             this.rtlAgcCheckBox.Name = "rtlAgcCheckBox";
-            this.rtlAgcCheckBox.Size = new System.Drawing.Size(72, 17);
+            this.rtlAgcCheckBox.Size = new System.Drawing.Size(165, 17);
             this.rtlAgcCheckBox.TabIndex = 4;
-            this.rtlAgcCheckBox.Text = "RTL AGC";
+            this.rtlAgcCheckBox.Text = "Automatic Gain Control (AGC)";
             this.rtlAgcCheckBox.UseVisualStyleBackColor = true;
             this.rtlAgcCheckBox.CheckedChanged += new System.EventHandler(this.rtlAgcCheckBox_CheckedChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 97);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 13);
-            this.label5.TabIndex = 31;
-            this.label5.Text = "Sampling Mode";
-            // 
-            // samplingModeComboBox
-            // 
-            this.samplingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.samplingModeComboBox.FormattingEnabled = true;
-            this.samplingModeComboBox.Items.AddRange(new object[] {
-            "Quadrature sampling",
-            "Direct sampling (I branch)",
-            "Direct sampling (Q branch)"});
-            this.samplingModeComboBox.Location = new System.Drawing.Point(12, 114);
-            this.samplingModeComboBox.Name = "samplingModeComboBox";
-            this.samplingModeComboBox.Size = new System.Drawing.Size(247, 21);
-            this.samplingModeComboBox.TabIndex = 2;
-            this.samplingModeComboBox.SelectedIndexChanged += new System.EventHandler(this.samplingModeComboBox_SelectedIndexChanged);
             // 
             // offsetTuningCheckBox
             // 
             this.offsetTuningCheckBox.AutoSize = true;
             this.offsetTuningCheckBox.Enabled = false;
-            this.offsetTuningCheckBox.Location = new System.Drawing.Point(12, 147);
+            this.offsetTuningCheckBox.Location = new System.Drawing.Point(12, 102);
             this.offsetTuningCheckBox.Name = "offsetTuningCheckBox";
             this.offsetTuningCheckBox.Size = new System.Drawing.Size(90, 17);
             this.offsetTuningCheckBox.TabIndex = 3;
@@ -210,7 +185,7 @@
             // 
             // gainVGALabel
             // 
-            this.gainVGALabel.Location = new System.Drawing.Point(191, 264);
+            this.gainVGALabel.Location = new System.Drawing.Point(191, 219);
             this.gainVGALabel.Name = "gainVGALabel";
             this.gainVGALabel.Size = new System.Drawing.Size(68, 13);
             this.gainVGALabel.TabIndex = 34;
@@ -221,7 +196,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 264);
+            this.label6.Location = new System.Drawing.Point(12, 219);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 13);
             this.label6.TabIndex = 33;
@@ -229,7 +204,7 @@
             // 
             // tunerVGAGainTrackBar
             // 
-            this.tunerVGAGainTrackBar.Location = new System.Drawing.Point(3, 280);
+            this.tunerVGAGainTrackBar.Location = new System.Drawing.Point(3, 235);
             this.tunerVGAGainTrackBar.Maximum = 10000;
             this.tunerVGAGainTrackBar.Name = "tunerVGAGainTrackBar";
             this.tunerVGAGainTrackBar.Size = new System.Drawing.Size(267, 45);
@@ -241,13 +216,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
-            this.ClientSize = new System.Drawing.Size(271, 359);
+            this.ClientSize = new System.Drawing.Size(271, 311);
             this.Controls.Add(this.gainVGALabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tunerVGAGainTrackBar);
             this.Controls.Add(this.offsetTuningCheckBox);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.samplingModeComboBox);
             this.Controls.Add(this.rtlAgcCheckBox);
             this.Controls.Add(this.tunerTypeLabel);
             this.Controls.Add(this.gainLNALabel);
@@ -290,8 +263,6 @@
         private System.Windows.Forms.CheckBox tunerAmpCheckBox;
         private System.Windows.Forms.Label gainLNALabel;
         private System.Windows.Forms.CheckBox rtlAgcCheckBox;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox samplingModeComboBox;
         private System.Windows.Forms.CheckBox offsetTuningCheckBox;
         private System.Windows.Forms.Label tunerTypeLabel;
         private System.Windows.Forms.Label gainVGALabel;
