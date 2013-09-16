@@ -20,14 +20,16 @@ namespace SDRSharp.HackRF
         private static readonly float* _lutPtr;
         private static readonly UnsafeBuffer _lutBuffer = UnsafeBuffer.Create(256, sizeof(float));
 
-        private readonly uint _index;
         private IntPtr _dev;
         private readonly string _name;
         private readonly int[] _supportedVGAGains;
         private bool _useTunerAMP = true;
         private bool _useHackRFAGC;
+        public int _initialLNAGain = -1;
+        public int _initialVGAGain = -1;
         private int _tunerLNAGain;
         private int _tunerVGAGain;
+        private int _IFFreq;
         private long _centerFrequency = DefaultFrequency;
         private uint _sampleRate = DefaultSamplerate;
         private int _frequencyCorrection;
@@ -176,13 +178,26 @@ namespace SDRSharp.HackRF
 
         public uint Index
         {
-            get { return _index; }
+            get { return 0; }
         }
 
         public string Name
         {
             get { return _name; }
         }
+
+        public int InitialLNAGain
+        {
+            get { return _initialLNAGain; }
+            set { _initialLNAGain = value; }
+        }
+
+        public int InitialVGAGain
+        {
+            get { return _initialVGAGain; }
+            set { _initialVGAGain = value; }
+        }
+
 
         public uint Samplerate
         {
@@ -313,6 +328,21 @@ namespace SDRSharp.HackRF
                 if (_dev != IntPtr.Zero)
                 {
                     NativeMethods.hackrf_set_vga_gain(_dev, Convert.ToUInt32(_tunerVGAGain));
+                }
+
+            }
+        }
+
+        public int IFFreq
+        {
+            get { return _IFFreq; }
+            set
+            {
+                _IFFreq = value;
+
+                if (_dev != IntPtr.Zero)
+                {
+                    NativeMethods.hackrf_set_if_freq(_dev, Convert.ToUInt32(_IFFreq));
                 }
 
             }

@@ -9,6 +9,9 @@ namespace SDRSharp.HackRF
     {
         private readonly HackRFIO _owner;
         private bool _initialized;
+        private const int LNAGainStep = 8;
+        private const int VGAGainStep = 2;
+        private const int IFFreqOffset = 2400;
 
         public HackRFControllerDialog(HackRFIO owner)
         {
@@ -23,15 +26,18 @@ namespace SDRSharp.HackRF
             offsetTuningCheckBox.Checked = Utils.GetBooleanSetting("HackRFOffsetTuning");
             rtlAgcCheckBox.Checked = Utils.GetBooleanSetting("HackRFChipAgc");
             tunerAmpCheckBox.Checked = Utils.GetBooleanSetting("HackRFTunerAmp");
-            tunerLNAGainTrackBar.Value = Utils.GetIntSetting("HackRFLNATunerGain", 3);
-            tunerVGAGainTrackBar.Value = Utils.GetIntSetting("HackRFVGATunerGain", 24);
-            gainLNALabel.Text = getLNAGain(tunerLNAGainTrackBar.Value) + " dB";
-            gainVGALabel.Text = tunerVGAGainTrackBar.Value + " dB";
+            tunerLNAGainTrackBar.Value = Utils.GetIntSetting("LNATunerGain", 3);
+            tunerVGAGainTrackBar.Value = Utils.GetIntSetting("VGATunerGain", 12);
+            tunerIFFreq.Value = Utils.GetIntSetting("HackRFIFFreq", 0);
+            gainLNALabel.Text = (tunerLNAGainTrackBar.Value * LNAGainStep) + " dB";
+            gainVGALabel.Text = (tunerVGAGainTrackBar.Value * VGAGainStep) + " dB";
+            IFLabel.Text = (tunerIFFreq.Value + IFFreqOffset) + " MHz";
                     
             //gainLabel.Visible = tunerAmpCheckBox.Enabled && !tunerAmpCheckBox.Checked;
             //tunerGainTrackBar.Enabled = tunerAmpCheckBox.Enabled && !tunerAmpCheckBox.Checked;
             gainLNALabel.Visible = tunerLNAGainTrackBar.Enabled = true;
             gainVGALabel.Visible = tunerVGAGainTrackBar.Enabled = true;
+            IFLabel.Visible = tunerIFFreq.Enabled = true;
             offsetTuningCheckBox.Enabled = false;
             tunerAmpCheckBox.Enabled = true;
 
@@ -140,14 +146,6 @@ namespace SDRSharp.HackRF
 
         public void ConfigureGUI()
         {
-            /*
-            tunerTypeLabel.Text = _owner.Device.TunerType.ToString();
-            */
-
-            /* todo: this better */
-            tunerLNAGainTrackBar.Maximum = 5;
-
-            tunerVGAGainTrackBar.Maximum = _owner.Device.SupportedGains.Length - 1;
             offsetTuningCheckBox.Enabled = _owner.Device.SupportsOffsetTuning;
 
             for (var i = 0; i < deviceComboBox.Items.Count; i++)
@@ -163,6 +161,8 @@ namespace SDRSharp.HackRF
 
         public void ConfigureDevice()
         {
+            tunerVGAGainTrackBar_Scroll(null, null);
+            tunerLNAGainTrackBar_Scroll(null, null);
             samplerateComboBox_SelectedIndexChanged(null, null);
             offsetTuningCheckBox_CheckedChanged(null, null);
             rtlAgcCheckBox_CheckedChanged(null, null);
@@ -191,55 +191,32 @@ namespace SDRSharp.HackRF
             {
                 return;
             }
-            //var gain = _owner.Device.SupportedGains[tunerGainTrackBar.Value];
-            var gain = tunerVGAGainTrackBar.Value;
-            _owner.Device.VGAGain = gain;
-            //gainLabel.Text = gain / 10.0 + " dB";
-            gainVGALabel.Text = gain + " dB";
-            Utils.SaveSetting("HackRFVGATunerGain", tunerVGAGainTrackBar.Value);
+
+            _owner.Device.VGAGain = (tunerVGAGainTrackBar.Value * VGAGainStep);
+            gainVGALabel.Text = _owner.Device.VGAGain + " dB";
+            Utils.SaveSetting("VGATunerGain", tunerVGAGainTrackBar.Value);
         }
 
-        private void tunerGainLNATrackBar_Scroll(object sender, EventArgs e)
+        private void tunerLNAGainTrackBar_Scroll(object sender, EventArgs e)
         {
             if (!_initialized)
             {
                 return;
             }
-            //var gain = _owner.Device.SupportedGains[tunerGainTrackBar.Value];
-            /* todo: this better */
-            int gain = getLNAGain(tunerLNAGainTrackBar.Value);
-            _owner.Device.LNAGain = gain;
-            gainLNALabel.Text = gain + " dB";
-
-            Utils.SaveSetting("HackRFLNATunerGain", tunerLNAGainTrackBar.Value);
+            _owner.Device.LNAGain = (tunerLNAGainTrackBar.Value * LNAGainStep);
+            gainLNALabel.Text = _owner.Device.LNAGain + " dB";
+            Utils.SaveSetting("LNATunerGain", tunerLNAGainTrackBar.Value);
         }
 
-        private int getLNAGain(int vgain)
+        private void tunerIFFreq_Scroll(object sender, EventArgs e)
         {
-            var gain = 0;
-            //gainLabel.Text = gain / 10.0 + " dB";
-            switch (vgain)
+            if (!_initialized)
             {
-                case 1:
-                    gain = 8;
-                    break;
-                case 2:
-                    gain = 16;
-                    break;
-                case 3:
-                    gain = 24;
-                    break;
-                case 4:
-                    gain = 32;
-                    break;
-                case 5:
-                    gain = 40;
-                    break;
-                default:
-                    gain = 0;
-                    break;
+                return;
             }
-            return gain;
+            _owner.Device.IFFreq = (tunerIFFreq.Value + IFFreqOffset);
+            IFLabel.Text = _owner.Device.IFFreq + " MHz";
+            Utils.SaveSetting("HackRFIFFreq", tunerIFFreq.Value);
         }
     }
 

@@ -25,6 +25,9 @@ namespace SDRSharp.HackRF
         [DllImport(LibHackRF, EntryPoint = "hackrf_init", CallingConvention = CallingConvention.StdCall)]
         public static extern int hackrf_init();
 
+        [DllImport(LibHackRF, EntryPoint = "hackrf_set_if_freq", CallingConvention = CallingConvention.StdCall)]
+        public static extern int hackrf_set_if_freq(IntPtr dev, UInt32 value);
+
         [DllImport(LibHackRF, EntryPoint = "hackrf_set_vga_gain", CallingConvention = CallingConvention.StdCall)]
         public static extern int hackrf_set_vga_gain(IntPtr dev, UInt32 value);
 

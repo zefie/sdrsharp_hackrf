@@ -45,8 +45,12 @@
             this.gainVGALabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tunerVGAGainTrackBar = new System.Windows.Forms.TrackBar();
+            this.IFLabel = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tunerIFFreq = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.tunerLNAGainTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tunerVGAGainTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tunerIFFreq)).BeginInit();
             this.SuspendLayout();
             // 
             // refreshTimer
@@ -57,7 +61,7 @@
             // closeButton
             // 
             this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.closeButton.Location = new System.Drawing.Point(184, 279);
+            this.closeButton.Location = new System.Drawing.Point(184, 331);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
             this.closeButton.TabIndex = 8;
@@ -87,11 +91,11 @@
             // tunerLNAGainTrackBar
             // 
             this.tunerLNAGainTrackBar.Location = new System.Drawing.Point(3, 184);
-            this.tunerLNAGainTrackBar.Maximum = 10000;
+            this.tunerLNAGainTrackBar.Maximum = 5;
             this.tunerLNAGainTrackBar.Name = "tunerLNAGainTrackBar";
             this.tunerLNAGainTrackBar.Size = new System.Drawing.Size(267, 45);
             this.tunerLNAGainTrackBar.TabIndex = 6;
-            this.tunerLNAGainTrackBar.Scroll += new System.EventHandler(this.tunerGainLNATrackBar_Scroll);
+            this.tunerLNAGainTrackBar.Scroll += new System.EventHandler(this.tunerLNAGainTrackBar_Scroll);
             // 
             // label2
             // 
@@ -116,10 +120,13 @@
             this.samplerateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.samplerateComboBox.FormattingEnabled = true;
             this.samplerateComboBox.Items.AddRange(new object[] {
-            "20 MSPS",
-            "16 MSPS",
-            "12.5 MSPS",
-            "8 MSPS"});
+            "20 MSPS     (Slight Sample Loss, Glitchy)",
+            "16 MSPS     (Glitchy)",
+            "12.5 MSPS  (Glitchy)",
+            "8 MSPS       (Zefie Recommended)",
+            "4 MSPS       (Testing)",
+            "2 MSPS       (RTLSDR Compatible)",
+            "1 MSPS       (RTLSDR Compatible)"});
             this.samplerateComboBox.Location = new System.Drawing.Point(12, 70);
             this.samplerateComboBox.Name = "samplerateComboBox";
             this.samplerateComboBox.Size = new System.Drawing.Size(247, 21);
@@ -205,18 +212,49 @@
             // tunerVGAGainTrackBar
             // 
             this.tunerVGAGainTrackBar.Location = new System.Drawing.Point(3, 235);
-            this.tunerVGAGainTrackBar.Maximum = 10000;
+            this.tunerVGAGainTrackBar.Maximum = 31;
             this.tunerVGAGainTrackBar.Name = "tunerVGAGainTrackBar";
             this.tunerVGAGainTrackBar.Size = new System.Drawing.Size(267, 45);
             this.tunerVGAGainTrackBar.TabIndex = 32;
             this.tunerVGAGainTrackBar.Scroll += new System.EventHandler(this.tunerVGAGainTrackBar_Scroll);
+            // 
+            // IFLabel
+            // 
+            this.IFLabel.Location = new System.Drawing.Point(191, 270);
+            this.IFLabel.Name = "IFLabel";
+            this.IFLabel.Size = new System.Drawing.Size(68, 13);
+            this.IFLabel.TabIndex = 38;
+            this.IFLabel.Text = "2400MHz";
+            this.IFLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.IFLabel.Visible = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 270);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(118, 13);
+            this.label5.TabIndex = 37;
+            this.label5.Text = "Intermediate Frequency";
+            // 
+            // tunerIFFreq
+            // 
+            this.tunerIFFreq.Location = new System.Drawing.Point(3, 286);
+            this.tunerIFFreq.Maximum = 300;
+            this.tunerIFFreq.Name = "tunerIFFreq";
+            this.tunerIFFreq.Size = new System.Drawing.Size(267, 45);
+            this.tunerIFFreq.TabIndex = 36;
+            this.tunerIFFreq.Scroll += new System.EventHandler(this.tunerIFFreq_Scroll);
             // 
             // HackRFControllerDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
-            this.ClientSize = new System.Drawing.Size(271, 311);
+            this.ClientSize = new System.Drawing.Size(271, 361);
+            this.Controls.Add(this.IFLabel);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.tunerIFFreq);
             this.Controls.Add(this.gainVGALabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tunerVGAGainTrackBar);
@@ -245,6 +283,7 @@
             this.VisibleChanged += new System.EventHandler(this.HackRFControllerDialog_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.tunerLNAGainTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tunerVGAGainTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tunerIFFreq)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -268,6 +307,9 @@
         private System.Windows.Forms.Label gainVGALabel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TrackBar tunerVGAGainTrackBar;
+        private System.Windows.Forms.Label IFLabel;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TrackBar tunerIFFreq;
     }
 }
 
