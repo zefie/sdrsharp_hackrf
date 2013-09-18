@@ -120,11 +120,12 @@
             this.samplerateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.samplerateComboBox.FormattingEnabled = true;
             this.samplerateComboBox.Items.AddRange(new object[] {
-            "20 MSPS     (Slight Sample Loss, Glitchy)",
-            "16 MSPS     (Glitchy)",
-            "12.5 MSPS  (Glitchy)",
+            "20 MSPS     (Slight Sample Loss)",
+            "16 MSPS     ",
+            "12.5 MSPS  ",
+            "10 MSPS     ",
             "8 MSPS       (Zefie Recommended)",
-            "4 MSPS       (Testing)",
+            "4 MSPS       ",
             "2 MSPS       (RTLSDR Compatible)",
             "1 MSPS       (RTLSDR Compatible)"});
             this.samplerateComboBox.Location = new System.Drawing.Point(12, 70);
