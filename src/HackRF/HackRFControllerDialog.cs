@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows.Forms;
 using SDRSharp.Radio;
+using System.Timers;
 
 namespace SDRSharp.HackRF
 {
@@ -12,6 +13,7 @@ namespace SDRSharp.HackRF
         private const int LNAGainStep = 8;
         private const int VGAGainStep = 2;
         private const int IFFreqOffset = 2400;
+        private static System.Timers.Timer configureDelay = new System.Timers.Timer();
 
         public HackRFControllerDialog(HackRFIO owner)
         {
@@ -163,9 +165,18 @@ namespace SDRSharp.HackRF
         {
             tunerVGAGainTrackBar_Scroll(null, null);
             tunerLNAGainTrackBar_Scroll(null, null);
+            tunerIFFreq_Scroll(null, null);
             samplerateComboBox_SelectedIndexChanged(null, null);
             offsetTuningCheckBox_CheckedChanged(null, null);
-            rtlAgcCheckBox_CheckedChanged(null, null);
+            tunerAmpCheckBox_CheckedChanged(null, null);
+            if (!_owner.Device.IsStreaming)
+            {
+                // A timer is required since for whatever reason, the amp (and assumingly other settings)
+                // are not properly applied when ConfigureDevice() is called by SDRSharp
+                configureDelay.Interval = 250;
+                configureDelay.Elapsed += new ElapsedEventHandler(configureDelayHandler);
+                configureDelay.Start();
+            }
             /*
             tunerAgcCheckBox_CheckedChanged(null, null);
             if (!tunerAgcCheckBox.Checked)
@@ -173,6 +184,16 @@ namespace SDRSharp.HackRF
                 tunerGainTrackBar_Scroll(null, null);
             }
             */
+        }
+
+        private void configureDelayHandler(object source, ElapsedEventArgs e)
+        {
+            if (_owner.Device.IsStreaming)
+            {
+                configureDelay.Interval = 10000;
+                configureDelay.Stop();
+                ConfigureDevice();
+            }
         }
 
         private void tunerAmpCheckBox_CheckedChanged(object sender, EventArgs e)
