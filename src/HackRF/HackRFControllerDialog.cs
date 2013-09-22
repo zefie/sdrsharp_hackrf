@@ -173,7 +173,7 @@ namespace SDRSharp.HackRF
             {
                 // A timer is required since for whatever reason, the amp (and assumingly other settings)
                 // are not properly applied when ConfigureDevice() is called by SDRSharp
-                configureDelay.Interval = 250;
+                configureDelay.Interval = 10;
                 configureDelay.Elapsed += new ElapsedEventHandler(configureDelayHandler);
                 configureDelay.Start();
             }
