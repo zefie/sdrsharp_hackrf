@@ -25,8 +25,6 @@ namespace SDRSharp.HackRF
             deviceComboBox.Items.AddRange(devices);
 
             samplerateComboBox.SelectedIndex = Utils.GetIntSetting("HackRFSampleRate", 3);
-            offsetTuningCheckBox.Checked = Utils.GetBooleanSetting("HackRFOffsetTuning");
-            rtlAgcCheckBox.Checked = Utils.GetBooleanSetting("HackRFChipAgc");
             tunerAmpCheckBox.Checked = Utils.GetBooleanSetting("HackRFTunerAmp");
             tunerLNAGainTrackBar.Value = Utils.GetIntSetting("LNATunerGain", 3);
             tunerVGAGainTrackBar.Value = Utils.GetIntSetting("VGATunerGain", 12);
@@ -40,7 +38,6 @@ namespace SDRSharp.HackRF
             gainLNALabel.Visible = tunerLNAGainTrackBar.Enabled = true;
             gainVGALabel.Visible = tunerVGAGainTrackBar.Enabled = true;
             IFLabel.Visible = tunerIFFreq.Enabled = true;
-            offsetTuningCheckBox.Enabled = false;
             tunerAmpCheckBox.Enabled = true;
 
             _initialized = true;
@@ -124,32 +121,8 @@ namespace SDRSharp.HackRF
             Utils.SaveSetting("HackRFSampleRate", samplerateComboBox.SelectedIndex);
         }
 
-
-        private void rtlAgcCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!_initialized)
-            {
-                return;
-            }
-            _owner.Device.UseHackRFAGC = rtlAgcCheckBox.Checked;
-            Utils.SaveSetting("HackRFChipAgc", rtlAgcCheckBox.Checked);
-        }
-
-        private void offsetTuningCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!_initialized)
-            {
-                return;
-            }
-
-            _owner.Device.UseOffsetTuning = offsetTuningCheckBox.Checked;
-            Utils.SaveSetting("HackRFOffsetTuning", offsetTuningCheckBox.Checked);
-        }
-
         public void ConfigureGUI()
         {
-            offsetTuningCheckBox.Enabled = _owner.Device.SupportsOffsetTuning;
-
             for (var i = 0; i < deviceComboBox.Items.Count; i++)
             {
                 var deviceDisplay = (DeviceDisplay) deviceComboBox.Items[i];
@@ -167,7 +140,6 @@ namespace SDRSharp.HackRF
             tunerLNAGainTrackBar_Scroll(null, null);
             tunerIFFreq_Scroll(null, null);
             samplerateComboBox_SelectedIndexChanged(null, null);
-            offsetTuningCheckBox_CheckedChanged(null, null);
             tunerAmpCheckBox_CheckedChanged(null, null);
             if (!_owner.Device.IsStreaming)
             {

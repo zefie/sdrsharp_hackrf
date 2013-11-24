@@ -1,0 +1,22 @@
+1) Extract SDRSharp.HackRF.dll and SDRSharp.HRFTCP.dll to your SDRSharp install folder
+
+2) Open SDRSharp.exe.Config and find the line "<frontendPlugins>"
+
+3) After the line "<frontendPlugins>", but before "</frontendPlugins>", add this line:
+    <add key="HackRF / USB" value="SDRSharp.HackRF.HackRFIO,SDRSharp.HackRF" />
+    <add key="HackRF / TCP" value="SDRSharp.HRFTCP.HRFTCPIO,SDRSharp.HRFTCP" />	
+
+4) Save and close SDRSharp.exe.Config
+
+Notes:
+1) You need to have compiled hackrf-tools for windows, or you can download my compiled copy from my website.
+   http://the.midnightchannel.net/sdr/SDRSharp_Plugins/zefie/SDRSharp.HackRF.ZefieMod/hackrf-tools.zip
+
+2) You will need to copy the 32-bit versions of libhackrf.dll and pthreadVC2.dll into the SDRSharp Program Folder.
+   You can obtain these from either my copy of the hackrf-tools above, or, if you compiled it yourself, you
+   should have both files in your development folder. libhackrf.dll may have been compiled as "hackrf.dll",
+   you can simply rename it.
+
+3) If you are using my copy of hackrf-tools above, you may need to install the
+   Microsoft Visual C++ 2012 Redistributable, which you can get from Microsoft here:
+   http://www.microsoft.com/en-us/download/details.aspx?id=30679
